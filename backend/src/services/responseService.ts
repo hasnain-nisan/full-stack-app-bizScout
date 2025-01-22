@@ -3,6 +3,7 @@ import ResponseDAO from '../daos/responseDAO';
 import { IResponseData } from '../models/responseModel';
 import { AppError } from '../utils/appError';
 import { generateRandomPayload } from '../utils/generateRandomPayload';
+import { io } from '../server';
 
 class ResponseService {
    public static async fetchAndSaveResponse(): Promise<void> {
@@ -20,6 +21,9 @@ class ResponseService {
          };
 
          await ResponseDAO.saveResponse(responseData);
+
+         // Emit the new data to all connected clients
+         io.emit("newData", responseData);
       } catch (error) {
          throw new AppError('Error in fetching and saving response', 500);
       }
