@@ -1,0 +1,63 @@
+# Node.js dependencies
+backend/node_modules/
+frontend/node_modules/
+
+# Build outputs
+backend/dist/
+frontend/build/
+frontend/dist/
+
+# TypeScript
+backend/*.tsbuildinfo
+frontend/*.tsbuildinfo
+
+# Environment variables
+backend/.env
+frontend/.env
+
+# Logs
+backend/logs/
+frontend/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.idea/
+.vscode/
+*.code-workspace
+
+# Test coverage reports
+backend/coverage/
+frontend/coverage/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Debug files
+*.log.*
+*.swp
+
+# Specific to npm
+backend/package-lock.json
+frontend/package-lock.json
+pnp.js
+.pnp.js
+
+# Specific to yarn
+backend/yarn.lock
+frontend/yarn.lock
+
+# Specific to build tools (optional)
+frontend/.next/  # Next.js
+frontend/.cache/ # Gatsby.js or similar
+
+# Optional: Ignore specific editors' swap files
+*.sublime-workspace
+*.sublime-project
