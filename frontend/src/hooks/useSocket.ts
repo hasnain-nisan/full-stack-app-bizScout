@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:3000'; // Update with your backend URL
+const SOCKET_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const useSocket = (event: string) => {
    const [data, setData] = useState<any[]>([]);

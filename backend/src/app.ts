@@ -1,13 +1,17 @@
 import express, { Request, Response, NextFunction } from 'express';
 import connectDB from './config/dbConfig';
+import cors from "cors";
 import responseRoutes from './routes/responseRoutes';
 import { startCronJobs } from './utils/cronJobs';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
 
-// Middleware
+// Middleware to parse JSON
 app.use(express.json());
+
+// CORS Middleware - Allow all origins
+app.use(cors());
 
 // Routes
 app.use('/api', responseRoutes);
