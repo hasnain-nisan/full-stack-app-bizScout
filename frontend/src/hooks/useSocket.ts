@@ -11,7 +11,7 @@ export const useSocket = (event: string) => {
 
       // Listen for real-time updates
       socket.on(event, (newData) => {
-         setData((prev) => [newData, ...prev]);
+         setData((prev) => [newData]);
       });
 
       return () => {
