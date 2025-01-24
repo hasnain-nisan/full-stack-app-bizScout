@@ -6,6 +6,8 @@ import modalReducer from '../store/modalSlice';
 import Dashboard from '../pages/Dashboard';
 import { useSocket } from '../hooks/useSocket';
 import { RootState } from '../store/store'; // Adjust path if necessary
+import React from 'react';
+import '@testing-library/jest-dom';
 
 // Mock the useSocket hook to simulate real-time updates
 jest.mock('../hooks/useSocket', () => ({
@@ -57,7 +59,7 @@ describe('Dashboard Component', () => {
     store = createMockStore();
 
     // Mock the useSocket hook to simulate real-time data
-    // (useSocket as jest.Mock).mockReturnValue(mockSocketData);
+    (useSocket as jest.Mock).mockReturnValue(mockSocketData);
   });
 
   it('renders loading spinner when data is being fetched', () => {
@@ -74,58 +76,23 @@ describe('Dashboard Component', () => {
     expect(screen.getByText('Loading data, please wait...')).toBeInTheDocument();
   });
 
-  // it('displays data when it has been fetched', async () => {
-  //   store = createMockStore({
-  //     dashboard: {
-  //       data: [
-  //         {
-  //           _id: '1',
-  //           timestamp: '2025-01-23T16:16:38Z',
-  //           requestPayload: {
-  //             requestId: '1',
-  //             event: {
-  //               type: 'request',
-  //               url: '/api/test',
-  //               method: 'POST',
-  //             },
-  //             metadata: {
-  //               environment: 'production',
-  //               priority: 'high',
-  //             },
-  //           },
-  //           response: {
-  //             json: {
-  //               event: {
-  //                 body: {
-  //                   action: 'test-action',
-  //                 },
-  //               },
-  //             },
-  //             method: 'POST',
-  //             origin: 'localhost',
-  //           },
-  //         },
-  //       ],
-  //       loading: false,
-  //       totalRequests: 1,
-  //       postRequests: 1,
-  //       highPriorityRequests: 1,
-  //       error: null,
-  //     },
-  //   });
+  it('displays data when it has been fetched', async () => {
+    store = createMockStore();
 
-  //   render(
-  //     <Provider store={store}>
-  //       <Dashboard />
-  //     </Provider>
-  //   );
+    render(
+      <Provider store={store}>
+        <Dashboard />
+      </Provider>
+    );
 
-  //   // Check if data appears in the table
-  //   expect(screen.getByText('Requests Table')).toBeInTheDocument();
-  //   expect(screen.getByText('/api/test')).toBeInTheDocument();
-  //   expect(screen.getByText('POST Requests')).toBeInTheDocument();
-  //   expect(screen.getByText('High Priority Requests')).toBeInTheDocument();
-  // });
+    // Check if data appears in the table
+    expect(screen.getByText((content, element) => {
+      return element?.textContent === "Requests Table";
+    })).toBeInTheDocument();
+    expect(screen.getByText('/api/test')).toBeInTheDocument();
+    expect(screen.getByText('POST Requests')).toBeInTheDocument();
+    expect(screen.getByText('High Priority Requests')).toBeInTheDocument();
+  });
 
   // it('updates with real-time data', async () => {
   //   store = createMockStore({

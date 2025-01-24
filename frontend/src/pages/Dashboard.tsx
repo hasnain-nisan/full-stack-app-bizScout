@@ -31,10 +31,9 @@ const Dashboard: React.FC = () => {
 
   // Listen to real-time updates
   useEffect(() => {
-    
-    if (realTimeData.length > 0) {
+    if ((realTimeData || []).length > 0) {
       dispatch(addNewData(realTimeData[0]));
-    }
+    }  
   }, [realTimeData, dispatch]);
 
   return (

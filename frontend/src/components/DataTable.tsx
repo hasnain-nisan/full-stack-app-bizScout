@@ -4,24 +4,39 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Bu
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/modalSlice";
 
-interface DataRow {
+export interface DataRow {
   requestPayload: {
+    requestId: string;
+    source?: string;
     event: {
       url: string;
       method: string;
-      body: {
+      type: string;
+      headers?: {
+      };
+      body?: {
         action: string;
         parameters: {
           region: string;
+          retries: number
         };
       };
     };
     metadata: {
       priority: string;
+      tags?: [
+        tag: string
+      ];
+      environment?: string;
+
     };
   };
   response: {
     origin: string;
+    url?: string;
+    method: string;
+    headers?: {};
+    json: {};
   };
   timestamp: string;
 }
