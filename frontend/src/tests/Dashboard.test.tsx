@@ -101,9 +101,7 @@ describe('Dashboard Component', () => {
             data: null,
          },
       };
-
       const store = createMockStore(preloadedState);
-
       await act(async () => {
          render(
             <Provider store={store}>
@@ -111,12 +109,8 @@ describe('Dashboard Component', () => {
             </Provider>
          );
       });
-
-      // Wait for the data to appear
-      // await waitFor(() => {
       expect(screen.getByText('Requests Table')).toBeInTheDocument();
       expect(screen.getByText('View Details')).toBeInTheDocument();
-      // });
    });
 
    // it('updates with real-time data', async () => {
