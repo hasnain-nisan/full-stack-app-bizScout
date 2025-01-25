@@ -6,6 +6,7 @@ import modalReducer from '../store/modalSlice';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { configureStore } from '@reduxjs/toolkit';
+import React, { act } from 'react';
 
 // Helper to create a mock store
 const createMockStore = (preloadedState = {}) =>
@@ -93,9 +94,10 @@ describe('Dashboard Slice - fetchData Thunk', () => {
          },
       });
 
-      mockAxios.onGet('/data').reply(200);
-
-      await store.dispatch(fetchData() as any);
+      await act(async () => {
+         mockAxios.onGet('/data').reply(200);
+         await store.dispatch(fetchData() as any);
+      });
 
       const state = store.getState().dashboard;
 

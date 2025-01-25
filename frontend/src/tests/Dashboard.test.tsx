@@ -236,7 +236,6 @@ describe('Dashboard Component', () => {
          expect(screen.getByText('Total Requests')).toBeInTheDocument();
          expect(screen.getByText('POST Requests')).toBeInTheDocument();
          expect(screen.getByText('High Priority Requests')).toBeInTheDocument();
-         // expect(screen.getByText('No data found')).toBeInTheDocument();
       });
    });
 });
