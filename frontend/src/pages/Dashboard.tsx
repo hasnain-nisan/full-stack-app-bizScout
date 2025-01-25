@@ -19,8 +19,14 @@ import RowDetailsModal from '../components/RowDetailsModal';
 
 const Dashboard: React.FC = () => {
    const dispatch = useDispatch<AppDispatch>();
-   const { data, loading, totalRequests, postRequests, highPriorityRequests, error } =
-      useSelector((state: RootState) => state.dashboard);
+   const {
+      data,
+      loading,
+      totalRequests,
+      postRequests,
+      highPriorityRequests,
+      error,
+   } = useSelector((state: RootState) => state.dashboard);
 
    const realTimeData = useSocket('newData');
 
