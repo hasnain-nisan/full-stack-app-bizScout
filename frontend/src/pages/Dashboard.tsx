@@ -7,6 +7,7 @@ import {
    Card,
    CardContent,
    Paper,
+   Box,
 } from '@mui/material';
 import { AccessTime, CheckCircle, PriorityHigh } from '@mui/icons-material';
 import DataTable from '../components/DataTable';
@@ -18,7 +19,7 @@ import RowDetailsModal from '../components/RowDetailsModal';
 
 const Dashboard: React.FC = () => {
    const dispatch = useDispatch<AppDispatch>();
-   const { data, loading, totalRequests, postRequests, highPriorityRequests } =
+   const { data, loading, totalRequests, postRequests, highPriorityRequests, error } =
       useSelector((state: RootState) => state.dashboard);
 
    const realTimeData = useSocket('newData');
@@ -126,8 +127,9 @@ const Dashboard: React.FC = () => {
          </Grid>
 
          {/* Data Table Section */}
+         {/* Data Table Section */}
          {loading ? (
-            <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+            <Box style={{ textAlign: 'center', marginTop: '3rem' }}>
                <CircularProgress />
                <Typography
                   variant="body1"
@@ -135,7 +137,19 @@ const Dashboard: React.FC = () => {
                >
                   Loading data, please wait...
                </Typography>
-            </div>
+            </Box>
+         ) : error ? (
+            <Box style={{ textAlign: 'center', marginTop: '2rem' }}>
+               <Typography variant="h6" color="error" gutterBottom>
+                  Failed to fetch data. Please try again later.
+               </Typography>
+            </Box>
+         ) : data.length <= 0 ? (
+            <Box style={{ textAlign: 'center', marginTop: '2rem' }}>
+               <Typography variant="h6" color="textSecondary">
+                  No data found.
+               </Typography>
+            </Box>
          ) : (
             <Paper elevation={3} style={{ padding: '2rem', marginTop: '2rem' }}>
                <Typography

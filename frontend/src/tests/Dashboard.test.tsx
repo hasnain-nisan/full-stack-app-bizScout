@@ -2,16 +2,99 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import dashboardReducer, {
-   fetchData,
    addNewData,
 } from '../store/dashboardSlice';
 import modalReducer from '../store/modalSlice';
 import Dashboard from '../pages/Dashboard';
-import { useSocket } from '../hooks/useSocket';
 import '@testing-library/jest-dom';
 import React, { act } from 'react';
 import { Store } from '@reduxjs/toolkit'; // Import the Store type
 import { RootState } from '../store/store';
+
+const mockData = [
+   {
+      "_id": "6793e421642cfe3ec108005e",
+      "timestamp": "2025-01-24T19:04:01.459Z",
+      "requestPayload": {
+        "requestId": "607275ed-6c02-4101-8bfc-47a0d7d02db5",
+        "timestamp": "2025-01-24T19:04:00.251Z",
+        "source": "monitoring-service",
+        "event": {
+          "type": "HTTP_CHECK",
+          "url": "https://example.com/api/health",
+          "method": "POST",
+          "headers": {
+            "Authorization": "Bearer sampleToken",
+            "Content-Type": "application/json"
+          },
+          "body": {
+            "userId": "7242",
+            "action": "check_health",
+            "parameters": {
+              "region": "eu-central-1",
+              "retries": 3
+            }
+          }
+        },
+        "metadata": {
+          "environment": "production",
+          "priority": "high",
+          "tags": [
+            "monitoring",
+            "api-check",
+            "health-check"
+          ]
+        }
+      },
+      "response": {
+        "data": "{\"requestId\":\"607275ed-6c02-4101-8bfc-47a0d7d02db5\",\"timestamp\":\"2025-01-24T19:04:00.251Z\",\"source\":\"monitoring-service\",\"event\":{\"type\":\"HTTP_CHECK\",\"url\":\"https://example.com/api/health\",\"method\":\"POST\",\"headers\":{\"Authorization\":\"Bearer sampleToken\",\"Content-Type\":\"application/json\"},\"body\":{\"userId\":\"7242\",\"action\":\"check_health\",\"parameters\":{\"region\":\"eu-central-1\",\"retries\":3}}},\"metadata\":{\"environment\":\"production\",\"priority\":\"high\",\"tags\":[\"monitoring\",\"api-check\",\"health-check\"]}}",
+        "headers": {
+          "Accept": "application/json, text/plain, */*",
+          "Accept-Encoding": "gzip, compress, deflate, br",
+          "Content-Length": "496",
+          "Content-Type": "application/json",
+          "Host": "httpbin.org",
+          "User-Agent": "axios/1.7.9",
+          "X-Amzn-Trace-Id": "Root=1-6793e423-7e03644708c7a1ed05fc703a"
+        },
+        "json": {
+          "event": {
+            "body": {
+              "action": "check_health",
+              "parameters": {
+                "region": "eu-central-1",
+                "retries": 3
+              },
+              "userId": "7242"
+            },
+            "headers": {
+              "Authorization": "Bearer sampleToken",
+              "Content-Type": "application/json"
+            },
+            "method": "POST",
+            "type": "HTTP_CHECK",
+            "url": "https://example.com/api/health"
+          },
+          "metadata": {
+            "environment": "production",
+            "priority": "high",
+            "tags": [
+              "monitoring",
+              "api-check",
+              "health-check"
+            ]
+          },
+          "requestId": "607275ed-6c02-4101-8bfc-47a0d7d02db5",
+          "source": "monitoring-service",
+          "timestamp": "2025-01-24T19:04:00.251Z"
+        },
+        "method": "POST",
+        "origin": "180.149.232.19",
+        "url": "https://httpbin.org/anything"
+      },
+      "__v": 0
+   }
+];
 
 // Mock the useSocket hook to simulate real-time updates
 jest.mock('../hooks/useSocket', () => ({
@@ -22,14 +105,7 @@ jest.mock('../hooks/useSocket', () => ({
 jest.mock('../api/axiosInstance', () => ({
    get: jest.fn(() =>
       Promise.resolve({
-         data: [
-            {
-               _id: '2',
-               timestamp: '2025-01-24T16:16:38Z',
-               requestPayload: { path: '/api/test', method: 'POST' },
-               response: { status: 200, priority: 'high' },
-            },
-         ],
+         data: mockData,
       })
    ),
 }));
@@ -83,14 +159,7 @@ describe('Dashboard Component', () => {
       const preloadedState = {
          dashboard: {
             loading: false,
-            data: [
-               {
-                  _id: '2',
-                  timestamp: '2025-01-24T16:16:38Z',
-                  requestPayload: { path: '/api/test', method: 'POST' },
-                  response: { status: 200, priority: 'high' },
-               },
-            ],
+            data: mockData,
             totalRequests: 1,
             postRequests: 1,
             highPriorityRequests: 1,
@@ -113,75 +182,64 @@ describe('Dashboard Component', () => {
       expect(screen.getByText('View Details')).toBeInTheDocument();
    });
 
-   // it('updates with real-time data', async () => {
-   //   store = createMockStore({
-   //     dashboard: {
-   //       loading: false,
-   //       data: mockData,
-   //       totalRequests: 1,
-   //       postRequests: 1,
-   //       highPriorityRequests: 1,
-   //       error: null,
-   //     },
-   //   });
+   it('updates with real-time data', async () => {
+     store = createMockStore({
+       dashboard: {
+         loading: true,
+         data: [],
+         totalRequests: 0,
+         postRequests: 0,
+         highPriorityRequests: 0,
+         error: null,
+       },
+     });
 
-   //   render(
-   //     <Provider store={store}>
-   //       <Dashboard />
-   //     </Provider>
-   //   );
+     render(
+       <Provider store={store}>
+         <Dashboard />
+       </Provider>
+     );
 
-   //   // Simulate real-time data update
-   //   await waitFor(() => {
-   //     store.dispatch(addNewData(mockSocketData[0]));
-   //   });
+     // Simulate real-time data update
+     await waitFor(() => {
+       store.dispatch(addNewData(mockData[0]))
+     });
 
-   //   // Verify real-time data appears in the table
-   //   expect(screen.getByText('/api/socket-test')).toBeInTheDocument();
-   //   expect(screen.getByText('medium')).toBeInTheDocument();
-   // });
+      // Verify the updated data in the store
+      const state = store.getState().dashboard;
+      
+      expect(state.totalRequests).toBe(1);
+      expect(state.postRequests).toBe(1);
+      expect(state.highPriorityRequests).toBe(1); // Since the priority is medium
+   });
 
-   // it('handles empty data gracefully', async () => {
-   //   store = createMockStore({
-   //     dashboard: {
-   //       loading: false,
-   //       data: [],
-   //       totalRequests: 0,
-   //       postRequests: 0,
-   //       highPriorityRequests: 0,
-   //       error: null,
-   //     },
-   //   });
+   it('renders correctly with empty data', async() => {
+      const store = createMockStore({
+         dashboard: {
+            loading: false,
+            data: [],
+            totalRequests: 0,
+            postRequests: 0,
+            highPriorityRequests: 0,
+            error: null,
+         },
+      });
 
-   //   render(
-   //     <Provider store={store}>
-   //       <Dashboard />
-   //     </Provider>
-   //   );
+      await act(async () => {
+         render(
+            <Provider store={store}>
+               <Dashboard />
+            </Provider>
+         );
+      });
 
-   //   expect(screen.getByText('Requests Table')).toBeInTheDocument();
-   //   expect(screen.queryByText('/api/test')).not.toBeInTheDocument();
-   //   expect(screen.queryByText('POST')).not.toBeInTheDocument();
-   // });
+      expect(
+         screen.getByText('HTTP Monitoring Dashboard')
+      ).toBeInTheDocument();
 
-   // it('handles errors in fetching data', async () => {
-   //   store = createMockStore({
-   //     dashboard: {
-   //       loading: false,
-   //       data: [],
-   //       totalRequests: 0,
-   //       postRequests: 0,
-   //       highPriorityRequests: 0,
-   //       error: 'Failed to fetch data',
-   //     },
-   //   });
-
-   //   render(
-   //     <Provider store={store}>
-   //       <Dashboard />
-   //     </Provider>
-   //   );
-
-   //   expect(screen.getByText('Failed to fetch data')).toBeInTheDocument();
-   // });
+      expect(screen.getByText('Total Requests')).toBeInTheDocument();
+      expect(screen.getByText('POST Requests')).toBeInTheDocument();
+      expect(screen.getByText('High Priority Requests')).toBeInTheDocument();
+      // expect(screen.getByText('No data found')).toBeInTheDocument();
+   });
 });
