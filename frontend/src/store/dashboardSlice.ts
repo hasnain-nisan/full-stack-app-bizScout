@@ -59,6 +59,7 @@ export const fetchData = createAsyncThunk(
          const response = await axiosInstance.get('/data');
          return response.data;
       } catch (error) {
+         console.log(error);         
          return rejectWithValue('Failed to fetch data');
       }
    }

@@ -10,7 +10,7 @@ import {
    Box,
    Chip,
    Grid,
-   Divider,
+   // Divider,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../store/modalSlice';
@@ -28,7 +28,7 @@ const RowDetailsModal: React.FC = () => {
    if (!modalState.selectedRow) return null;
 
    const { selectedRow } = modalState;
-   const { requestPayload, response, timestamp } = selectedRow;
+   const { requestPayload, response } = selectedRow;
    const { event, metadata } = requestPayload || {};
    const { url, method, headers, body } = event || {};
    const { action, parameters } = body || {};

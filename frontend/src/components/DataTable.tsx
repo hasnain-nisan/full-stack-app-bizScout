@@ -21,7 +21,7 @@ export interface DataRow {
          url: string;
          method: string;
          type: string;
-         headers?: {};
+         headers?: unknown;
          body?: {
             action: string;
             parameters: {
@@ -40,8 +40,8 @@ export interface DataRow {
       origin: string;
       url?: string;
       method: string;
-      headers?: {};
-      json: {};
+      headers?: unknown;
+      json: unknown;
    };
    timestamp: string;
 }

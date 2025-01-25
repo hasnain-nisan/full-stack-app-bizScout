@@ -6,8 +6,8 @@ import modalReducer from '../store/modalSlice';
 import Dashboard from '../pages/Dashboard';
 import '@testing-library/jest-dom';
 import React, { act } from 'react';
-import { Store } from '@reduxjs/toolkit';
-import { RootState } from '../store/store';
+// import { Store } from '@reduxjs/toolkit';
+// import { RootState } from '../store/store';
 
 const mockData = [
    {

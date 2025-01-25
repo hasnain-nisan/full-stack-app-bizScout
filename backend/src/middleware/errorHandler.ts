@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import logger from '../utils/logger';
 import { AppError } from '../utils/appError';
 
@@ -6,7 +6,7 @@ export const errorHandler = (
    err: AppError,
    req: Request,
    res: Response,
-   next: NextFunction
+   // next: NextFunction
 ): void => {
    const statusCode = err.statusCode || 500;
    const isOperational = err.isOperational || false;

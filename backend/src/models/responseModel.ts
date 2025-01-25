@@ -3,8 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 // Define the plain object type for the response
 export interface IResponseData {
    timestamp: Date;
-   requestPayload: Record<string, any>;
-   response: Record<string, any>;
+   requestPayload: Record<string, unknown>;
+   response: Record<string, unknown>;
 }
 
 // Extend the plain object with Mongoose's Document type

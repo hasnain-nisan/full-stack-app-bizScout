@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const generateRandomPayload = (): Record<string, any> => {
+export const generateRandomPayload = (): Record<string, unknown> => {
   const regions = ["us-east-1", "us-west-2", "eu-central-1"];
   const environments = ["development", "staging", "production"];
   const priorities = ["low", "medium", "high"];
