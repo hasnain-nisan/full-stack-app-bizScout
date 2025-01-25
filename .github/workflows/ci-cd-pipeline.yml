@@ -83,6 +83,7 @@ jobs:
         
   backendbuild:
     runs-on: ubuntu-latest
+    needs: backend  # Ensures frontend job runs first
     steps:
       - name: Deploy to production
         uses: johnbeynon/render-deploy-action@v0.0.8
