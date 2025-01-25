@@ -14,6 +14,11 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
+// Welcome route at the root
+app.get('/', (req: Request, res: Response) => {
+   res.status(200).json({ message: 'Welcome to the API!' });
+});
+
 app.use('/api', responseRoutes);
 
 // Catch-all for undefined routes

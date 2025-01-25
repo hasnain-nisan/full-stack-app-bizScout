@@ -18,6 +18,10 @@ import { useSocket } from '../hooks/useSocket';
 import RowDetailsModal from '../components/RowDetailsModal';
 
 const Dashboard: React.FC = () => {
+
+   console.log('dashboard page');
+   
+
    const dispatch = useDispatch<AppDispatch>();
    const {
       data,
