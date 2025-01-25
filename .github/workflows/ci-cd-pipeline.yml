@@ -43,7 +43,7 @@ jobs:
       - name: Deploy to Vercel (Frontend)
         working-directory: ./frontend
         run: |
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --confirm
+          vercel --token `Yjmg4NqwvHsBPFOdSONuizli` --prod --confirm
 
   # Backend Job
   backend:
