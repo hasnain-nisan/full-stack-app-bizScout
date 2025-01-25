@@ -66,6 +66,16 @@ jobs:
       #   with:
       #     node-version: '20.11.1'   # Update Node.js version here
 
+      - name: Kill Process on Port 3000
+        run: |
+          PID=$(lsof -ti:3000) # Find the process using port 3000
+          if [ -n "$PID" ]; then # Check if PID exists
+            kill -9 $PID # Kill the process
+            echo "Killed process on port 3000"
+          else
+            echo "No process running on port 3000"
+          fi
+
       - name: Install Dependencies (Backend)
         working-directory: ./backend
         run: |
