@@ -1,14 +1,14 @@
-import request from 'supertest';
-import app from '../app';
-import ResponseService from '../services/responseService';
+// import request from 'supertest';
+// import app from '../app';
+// import ResponseService from '../services/responseService';
 
-jest.mock('../services/responseService');
+// jest.mock('../services/responseService');
 
 
-describe('ResponseController', () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+// describe('ResponseController', () => {
+//   afterEach(() => {
+//     jest.clearAllMocks();
+//   });
 
   // it('should fetch and save data successfully', async () => {
   //   // Mock ResponseService.fetchAndSaveResponse to resolve successfully
@@ -63,4 +63,4 @@ describe('ResponseController', () => {
   //   expect(response.status).toBe(500);
   //   expect(response.body.message).toBe('Error fetching historical data');
   // });
-});
+// });
