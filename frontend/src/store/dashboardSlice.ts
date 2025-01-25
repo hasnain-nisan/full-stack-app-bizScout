@@ -73,6 +73,7 @@ const dashboardSlice = createSlice({
       addNewData(state, action: PayloadAction<DataRow>) {
          state.data.unshift(action.payload);
          state.totalRequests += 1;
+         state.error=null;
 
          if (action.payload.requestPayload?.event?.method === 'POST') {
             state.postRequests += 1;
