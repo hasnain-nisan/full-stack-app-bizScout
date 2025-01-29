@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
 export { io };
 
 // Start the server
-const PORT = config.port;
+const PORT = process.env.TEST_PORT || config.port;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
